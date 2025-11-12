@@ -17,7 +17,6 @@
       --danger: #ff6b6b;
       --radius: 12px;
     }
-
     * { box-sizing: border-box; }
     body {
       background: linear-gradient(180deg,#071018 0%, #09121a 100%);
@@ -26,170 +25,48 @@
       margin: 0;
       padding: 26px;
     }
-
-    /* HEADER */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .brand {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-    .logo {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg,var(--accent),#7b6bff);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #021;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-    }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .brand { display: flex; gap: 16px; align-items: center; }
+    .logo { width: 60px; height: 60px; background: linear-gradient(135deg,var(--accent),#7b6bff); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #021; box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
     .subtitle { color: var(--muted); font-size: 0.9rem; }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .header-right { display: flex; align-items: center; gap: 14px; }
     .controls { display: flex; gap: 8px; align-items: center; }
-    select, input[type="search"] {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--text);
-      padding: 8px;
-      border-radius: 8px;
-    }
+    select, input[type="search"] { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text); padding: 8px; border-radius: 8px; }
     .carrito-mini { text-align: right; }
     #badge-count { font-size: 1.1rem; font-weight: 700; }
 
-    /* PRODUCTOS */
-    main {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 18px;
-    }
-    #productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
-      gap: 14px;
-    }
-    .producto {
-      background: var(--card);
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.05);
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-    }
-    .producto img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px;
-      background: #03111a;
-    }
+    main { display: grid; grid-template-columns: 1fr 380px; gap: 18px; }
+    #productos { display: grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap: 14px; }
+    .producto { background: var(--card); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); padding: 12px; display: flex; flex-direction: column; }
+    .producto img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; background: #03111a; }
     .producto h3 { margin: 6px 0; }
     .meta { display: flex; justify-content: space-between; color: var(--muted); }
     .price { color: var(--accent-2); font-weight: 700; }
-    .button {
-      background: linear-gradient(90deg,var(--accent),#7b6bff);
-      border: none;
-      color: #021;
-      padding: 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
+    .button { background: linear-gradient(90deg,var(--accent),#7b6bff); border: none; color: #021; padding: 8px; border-radius: 8px; cursor: pointer; font-weight: 600; }
 
-    /* CARRITO */
-    .carrito {
-      background: var(--panel);
-      border-radius: var(--radius);
-      padding: 14px;
-    }
-    #lista-carrito {
-      list-style: none;
-      padding: 0;
-      margin: 8px 0;
-      max-height: 380px;
-      overflow: auto;
-    }
-    #lista-carrito li {
-      background: var(--card);
-      border-radius: 8px;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
+    .carrito { background: var(--panel); border-radius: var(--radius); padding: 14px; }
+    #lista-carrito { list-style: none; padding: 0; margin: 8px 0; max-height: 380px; overflow: auto; }
+    #lista-carrito li { background: var(--card); border-radius: 8px; padding: 10px; display: flex; justify-content: space-between; margin-bottom: 6px; }
     .qty { display: flex; align-items: center; gap: 6px; }
-    .qty button, .remove {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text);
-      border-radius: 6px;
-      padding: 4px 6px;
-      cursor: pointer;
-    }
+    .qty button, .remove { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text); border-radius: 6px; padding: 4px 6px; cursor: pointer; }
     .remove { color: var(--danger); border-color: var(--danger); }
 
     .totales { text-align: right; margin-top: 8px; }
     .totales p { margin: 4px 0; color: var(--muted); }
     .total { font-size: 1.15rem; color: var(--accent); font-weight: 800; }
 
-    .vaciar {
-      background: transparent;
-      border: 1px solid var(--danger);
-      color: var(--danger);
-      border-radius: 8px;
-      padding: 8px;
-      cursor: pointer;
-    }
-    .finalizar {
-      background: linear-gradient(90deg,#0066ff,var(--accent));
-      border: none;
-      color: white;
-      border-radius: 8px;
-      padding: 8px;
-      cursor: pointer;
-    }
+    .vaciar { background: transparent; border: 1px solid var(--danger); color: var(--danger); border-radius: 8px; padding: 8px; cursor: pointer; }
+    .finalizar { background: linear-gradient(90deg,#0066ff,var(--accent)); border: none; color: white; border-radius: 8px; padding: 8px; cursor: pointer; }
     .hint { font-size: 0.85rem; color: var(--muted); }
 
-    /* TOAST */
-    .toast {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      background: linear-gradient(90deg,var(--accent),#7b6bff);
-      color: #021;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-weight: 700;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-      transform: translateY(20px);
-      opacity: 0;
-      transition: all .3s ease;
-    }
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    .toast { position: fixed; right: 18px; bottom: 18px; background: linear-gradient(90deg,var(--accent),#7b6bff); color: #021; padding: 12px 16px; border-radius: 12px; font-weight: 700; box-shadow: 0 12px 30px rgba(0,0,0,0.6); transform: translateY(20px); opacity: 0; transition: all .3s ease; }
+    .toast.show { transform: translateY(0); opacity: 1; }
 
-    @media (max-width: 980px) {
-      main { grid-template-columns: 1fr; }
-      .header-right { display: none; }
-    }
+    @media (max-width: 980px) { main { grid-template-columns: 1fr; } .header-right { display: none; } }
   </style>
 </head>
 
 <body>
-
   <header>
     <div class="brand">
       <div class="logo">SP</div>
@@ -236,24 +113,32 @@
 
       <div class="pago">
         <h3>💳 Pago</h3>
+        <!-- El contenedor puede mostrarse/ocultarse según haya total -->
         <div id="paypal-button-container" style="display:none;"></div>
-        <p class="hint">Modo sandbox activo — client-id: <code>sb</code></p>
+        <p class="hint">Modo sandbox activo — client-id: <code>sb</code> (reemplaza por tu Client ID si lo tienes)</p>
       </div>
     </aside>
   </main>
 
   <div id="toast" class="toast"></div>
 
-  <!-- SDK PayPal -->
-  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=COP"></script>
+  <!-- SDK PayPal: nota -> currency=USD para flujo sandbox estable -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
 
   <script>
+    // ---------- Config ----------
     const MONEDA = 'COP';
     const LOCALE = 'es-CO';
     const TAX_RATE = 0.00;
     const DESCUENTO = 0.00;
-    let carrito = new Map();
+    // Tasa aproximada COP por USD (ajusta si quieres)
+    const USD_RATE = 4000;
 
+    // Estado
+    let carrito = new Map();
+    let paypalButtonsRendered = false; // si actualmente hay botones renderizados
+
+    // Elementos
     const el = {
       contProds: document.getElementById('productos'),
       lista: document.getElementById('lista-carrito'),
@@ -282,6 +167,7 @@
 
     const money = new Intl.NumberFormat(LOCALE, { style: 'currency', currency: MONEDA });
 
+    // ---------- UI y lógica ----------
     function poblarCategorias() {
       const cats = ['todos', ...new Set(productos.map(p => p.categoria))];
       el.select.innerHTML = '';
@@ -353,7 +239,15 @@
       el.total.textContent = money.format(total);
       el.cantidad.textContent = `${cantidad} items`;
       el.badge.textContent = cantidad;
-      el.paypal.style.display = total > 0 ? 'block' : 'none';
+
+      // Mostrar/ocultar contenedor PayPal y (re)renderizar botones según corresponda
+      if (total > 0) {
+        el.paypal.style.display = 'block';
+        renderPayPalButtonsIfNeeded();
+      } else {
+        el.paypal.style.display = 'none';
+        destroyPayPalButtonsIfNeeded();
+      }
     }
 
     function add(id) {
@@ -394,6 +288,7 @@
     });
     el.select.addEventListener('change', filtrar);
     el.buscar.addEventListener('input', filtrar);
+
     load();
     poblarCategorias();
     renderProductos(productos);
@@ -405,40 +300,97 @@
       setTimeout(() => el.toast.classList.remove('show'), 2000);
     }
 
-    // === 🟦 PayPal Buttons ===
-    paypal.Buttons({
-      style: {
-        color: 'blue',
-        shape: 'pill',
-        label: 'pay',
-        layout: 'vertical'
-      },
-      createOrder: (data, actions) => {
-        const { total } = totales();
-        // convertir a USD aproximado si es sandbox
-        const usdValue = (total / 4000).toFixed(2);
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              currency_code: 'USD',
-              value: usdValue
-            },
-            description: "Sonido Pro Rent — Pedido"
-          }]
-        });
-      },
-      onApprove: async (data, actions) => {
-        const order = await actions.order.capture();
-        console.log('Orden completada:', order);
-        showToast("✅ Pago completado con éxito");
-        alert(`Pago completado por ${order.payer.name.given_name}`);
-        carrito.clear(); persist(); pintarCarrito();
-      },
-      onError: err => {
-        console.error(err);
-        showToast("❌ Error al procesar el pago");
+    // ---------- PayPal: renderizado dinámico ----------
+    // Nota: el script fue cargado con client-id=sb (sandbox) y currency=USD.
+    // Reemplaza el client-id en la URL del SDK cuando tengas tu Client ID real.
+    let paypalRenderPromise = null;
+
+    function renderPayPalButtonsIfNeeded() {
+      const { total } = totales();
+      if (total <= 0) return;
+      if (paypalButtonsRendered) return; // ya renderizado
+
+      // Asegurarse contenedor visible antes de renderizar
+      el.paypal.style.display = 'block';
+      // limpiar cualquier contenido previo (por si)
+      el.paypal.innerHTML = '';
+
+      if (!window.paypal) {
+        console.error('PayPal SDK no cargado');
+        showToast('❌ PayPal no cargado');
+        return;
       }
-    }).render('#paypal-button-container');
+
+      // Guardamos la promesa para saber cuando está listo (opcional)
+      paypalRenderPromise = paypal.Buttons({
+        style: { color: 'blue', shape: 'pill', label: 'pay', layout: 'vertical' },
+
+        // createOrder se ejecuta justo antes de abrir la ventana de pago,
+        // por eso aquí tomamos el total actual
+        createOrder: (data, actions) => {
+          const { total } = totales(); // total en COP
+          // Convertir COP -> USD (aprox)
+          const usdValue = (total / USD_RATE).toFixed(2);
+          if (Number(usdValue) <= 0) {
+            return actions.reject && actions.reject(); // seguro
+          }
+
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                currency_code: 'USD',
+                value: usdValue
+              },
+              description: "Sonido Pro Rent — Pedido"
+            }]
+          });
+        },
+
+        onApprove: async (data, actions) => {
+          try {
+            const order = await actions.order.capture();
+            console.log('Orden completada:', order);
+            showToast("✅ Pago completado con éxito");
+            alert(`Pago completado por ${order.payer?.name?.given_name || 'usuario'}`);
+            carrito.clear(); persist(); pintarCarrito();
+          } catch (err) {
+            console.error('Error capture:', err);
+            showToast("❌ Error al completar pago");
+          }
+        },
+
+        onCancel: (data) => {
+          console.log('Pago cancelado', data);
+          showToast('Pago cancelado');
+        },
+
+        onError: (err) => {
+          console.error('PayPal error', err);
+          showToast('❌ Error PayPal');
+        }
+      }).render('#paypal-button-container')
+      .then(() => {
+        paypalButtonsRendered = true;
+        console.log('PayPal Buttons renderizados');
+      })
+      .catch(err => {
+        console.error('Error renderizando PayPal Buttons', err);
+        showToast('❌ No se pudo renderizar PayPal');
+      });
+    }
+
+    function destroyPayPalButtonsIfNeeded() {
+      if (!paypalButtonsRendered) return;
+      // No existe un método público para "destruir" el botón, así que limpiamos el contenedor
+      // y marcamos que no está renderizado para que se pueda volver a crear luego.
+      el.paypal.innerHTML = '';
+      paypalButtonsRendered = false;
+      paypalRenderPromise = null;
+      console.log('PayPal Buttons destruidos/limpiados');
+    }
+
+    // Debug helper: mostrar totales en consola al abrir devtools
+    window.__totales = totales;
   </script>
 </body>
 </html>
