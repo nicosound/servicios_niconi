@@ -244,7 +244,9 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=COP&components=buttons"></script>
+  <!-- SDK PayPal -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=COP"></script>
+
   <script>
     const MONEDA = 'COP';
     const LOCALE = 'es-CO';
@@ -402,6 +404,41 @@
       el.toast.classList.add('show');
       setTimeout(() => el.toast.classList.remove('show'), 2000);
     }
+
+    // === 🟦 PayPal Buttons ===
+    paypal.Buttons({
+      style: {
+        color: 'blue',
+        shape: 'pill',
+        label: 'pay',
+        layout: 'vertical'
+      },
+      createOrder: (data, actions) => {
+        const { total } = totales();
+        // convertir a USD aproximado si es sandbox
+        const usdValue = (total / 4000).toFixed(2);
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              currency_code: 'USD',
+              value: usdValue
+            },
+            description: "Sonido Pro Rent — Pedido"
+          }]
+        });
+      },
+      onApprove: async (data, actions) => {
+        const order = await actions.order.capture();
+        console.log('Orden completada:', order);
+        showToast("✅ Pago completado con éxito");
+        alert(`Pago completado por ${order.payer.name.given_name}`);
+        carrito.clear(); persist(); pintarCarrito();
+      },
+      onError: err => {
+        console.error(err);
+        showToast("❌ Error al procesar el pago");
+      }
+    }).render('#paypal-button-container');
   </script>
 </body>
 </html>
