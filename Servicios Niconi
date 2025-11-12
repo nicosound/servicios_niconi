@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎧 Sonido Pro Rent — Nico Vanegas</title>
+  <meta name="description" content="Alquiler de equipos de sonido profesional con carrito y pago PayPal Sandbox" />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #0f1720;
+      --card: #0b1220;
+      --muted: #95a0b8;
+      --text: #e6eef8;
+      --accent: #00d1ff;
+      --accent-2: #7bf68f;
+      --danger: #ff6b6b;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      background: linear-gradient(180deg,#071018 0%, #09121a 100%);
+      color: var(--text);
+      font-family: "Inter", system-ui, sans-serif;
+      margin: 0;
+      padding: 26px;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .brand {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .logo {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg,var(--accent),#7b6bff);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #021;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+    .subtitle { color: var(--muted); font-size: 0.9rem; }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .controls { display: flex; gap: 8px; align-items: center; }
+    select, input[type="search"] {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      padding: 8px;
+      border-radius: 8px;
+    }
+    .carrito-mini { text-align: right; }
+    #badge-count { font-size: 1.1rem; font-weight: 700; }
+
+    /* PRODUCTOS */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 18px;
+    }
+    #productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+      gap: 14px;
+    }
+    .producto {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+    }
+    .producto img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #03111a;
+    }
+    .producto h3 { margin: 6px 0; }
+    .meta { display: flex; justify-content: space-between; color: var(--muted); }
+    .price { color: var(--accent-2); font-weight: 700; }
+    .button {
+      background: linear-gradient(90deg,var(--accent),#7b6bff);
+      border: none;
+      color: #021;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* CARRITO */
+    .carrito {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+    #lista-carrito {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0;
+      max-height: 380px;
+      overflow: auto;
+    }
+    #lista-carrito li {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .qty { display: flex; align-items: center; gap: 6px; }
+    .qty button, .remove {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 4px 6px;
+      cursor: pointer;
+    }
+    .remove { color: var(--danger); border-color: var(--danger); }
+
+    .totales { text-align: right; margin-top: 8px; }
+    .totales p { margin: 4px 0; color: var(--muted); }
+    .total { font-size: 1.15rem; color: var(--accent); font-weight: 800; }
+
+    .vaciar {
+      background: transparent;
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .finalizar {
+      background: linear-gradient(90deg,#0066ff,var(--accent));
+      border: none;
+      color: white;
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .hint { font-size: 0.85rem; color: var(--muted); }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: linear-gradient(90deg,var(--accent),#7b6bff);
+      color: #021;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all .3s ease;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 980px) {
+      main { grid-template-columns: 1fr; }
+      .header-right { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="logo">SP</div>
+      <div>
+        <h1>🎧 Sonido Pro Rent — Nico Vanegas</h1>
+        <p class="subtitle">Alquiler de equipos de sonido profesional — Parlantes, consolas, luces y más</p>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="controls">
+        <label for="categoria" class="small">Categoría</label>
+        <select id="categoria" aria-label="Filtrar por categoría">
+          <option value="todos">Todos</option>
+        </select>
+        <input type="search" id="buscar" placeholder="Buscar producto..." aria-label="Buscar productos">
+      </div>
+
+      <div class="carrito-mini">
+        <div class="small">Items en carrito</div>
+        <div id="badge-count">0</div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section id="productos" aria-live="polite"></section>
+
+    <aside class="carrito" aria-label="Carrito de compras">
+      <h2>🛒 Carrito <span id="mini-cantidad" class="small">0 items</span></h2>
+      <ul id="lista-carrito"></ul>
+
+      <div class="totales">
+        <p>Subtotal: <strong id="subtotal-text">$0.00</strong></p>
+        <p>Descuento: <strong id="descuento-text">$0.00</strong></p>
+        <p>Impuestos: <strong id="impuestos-text">$0.00</strong></p>
+        <p class="total">Total: <strong id="total-text">$0.00</strong></p>
+      </div>
+
+      <div class="acciones">
+        <button id="btn-vaciar" class="vaciar">🧼 Vaciar</button>
+        <button id="btn-finalizar" class="finalizar">✅ Finalizar</button>
+      </div>
+
+      <div class="pago">
+        <h3>💳 Pago</h3>
+        <div id="paypal-button-container" style="display:none;"></div>
+        <p class="hint">Modo sandbox activo — client-id: <code>sb</code></p>
+      </div>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=COP&components=buttons"></script>
+  <script>
+    const MONEDA = 'COP';
+    const LOCALE = 'es-CO';
+    const TAX_RATE = 0.00;
+    const DESCUENTO = 0.00;
+    let carrito = new Map();
+
+    const el = {
+      contProds: document.getElementById('productos'),
+      lista: document.getElementById('lista-carrito'),
+      subtotal: document.getElementById('subtotal-text'),
+      descuento: document.getElementById('descuento-text'),
+      impuestos: document.getElementById('impuestos-text'),
+      total: document.getElementById('total-text'),
+      cantidad: document.getElementById('mini-cantidad'),
+      badge: document.getElementById('badge-count'),
+      select: document.getElementById('categoria'),
+      buscar: document.getElementById('buscar'),
+      btnVaciar: document.getElementById('btn-vaciar'),
+      btnFinal: document.getElementById('btn-finalizar'),
+      paypal: document.getElementById('paypal-button-container'),
+      toast: document.getElementById('toast')
+    };
+
+    const productos = [
+      { id: 1, nombre: "Parlante Activo JBL EON 15\"", precio: 150000, categoria: "Parlantes", img: "https://images.unsplash.com/photo-1526178615993-7a1b6b0b1f92?w=800" },
+      { id: 2, nombre: "Consola de Mezclas 16 canales", precio: 220000, categoria: "Consolas", img: "https://images.unsplash.com/photo-1518173946683-1f4b3a2f2f65?w=800" },
+      { id: 3, nombre: "Micrófono Shure SM58", precio: 25000, categoria: "Micrófonos", img: "https://images.unsplash.com/photo-1585386959984-a415522b33f3?w=800" },
+      { id: 4, nombre: "Luces PAR LED", precio: 60000, categoria: "Luces", img: "https://images.unsplash.com/photo-1543872084-c7bd3822856f?w=800" },
+      { id: 5, nombre: "Cable XLR 10m", precio: 8000, categoria: "Accesorios", img: "https://images.unsplash.com/photo-1580894908360-1b355a2b3f9b?w=800" },
+      { id: 6, nombre: "Procesador de Efectos", precio: 45000, categoria: "Consolas", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800" }
+    ];
+
+    const money = new Intl.NumberFormat(LOCALE, { style: 'currency', currency: MONEDA });
+
+    function poblarCategorias() {
+      const cats = ['todos', ...new Set(productos.map(p => p.categoria))];
+      el.select.innerHTML = '';
+      cats.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        el.select.appendChild(opt);
+      });
+    }
+
+    function renderProductos(lista) {
+      el.contProds.innerHTML = '';
+      lista.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'producto';
+        div.innerHTML = `
+          <img src="${p.img}" alt="${p.nombre}">
+          <h3>${p.nombre}</h3>
+          <div class="meta"><span>${p.categoria}</span><span class="price">${money.format(p.precio)}</span></div>
+          <button class="button" data-add="${p.id}">Agregar</button>
+        `;
+        el.contProds.appendChild(div);
+      });
+    }
+
+    function filtrar() {
+      const cat = el.select.value;
+      const query = el.buscar.value.toLowerCase();
+      let data = productos;
+      if (cat !== 'todos') data = data.filter(p => p.categoria === cat);
+      if (query) data = data.filter(p => p.nombre.toLowerCase().includes(query));
+      renderProductos(data);
+    }
+
+    function persist() { localStorage.setItem('carrito', JSON.stringify(Array.from(carrito.entries()))); }
+    function load() {
+      const data = localStorage.getItem('carrito');
+      if (data) carrito = new Map(JSON.parse(data));
+    }
+
+    function totales() {
+      const subtotal = [...carrito.values()].reduce((a, i) => a + i.precio * i.cantidad, 0);
+      const impuestos = subtotal * TAX_RATE;
+      const total = subtotal + impuestos - DESCUENTO;
+      const cantidad = [...carrito.values()].reduce((a, i) => a + i.cantidad, 0);
+      return { subtotal, impuestos, total, cantidad };
+    }
+
+    function pintarCarrito() {
+      el.lista.innerHTML = '';
+      carrito.forEach(it => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <div><strong>${it.nombre}</strong><br><span>${money.format(it.precio)} x ${it.cantidad}</span></div>
+          <div class="qty">
+            <button data-dec="${it.id}">−</button>
+            <span>${it.cantidad}</span>
+            <button data-inc="${it.id}">+</button>
+            <button class="remove" data-del="${it.id}">✖</button>
+          </div>
+        `;
+        el.lista.appendChild(li);
+      });
+
+      const { subtotal, impuestos, total, cantidad } = totales();
+      el.subtotal.textContent = money.format(subtotal);
+      el.impuestos.textContent = money.format(impuestos);
+      el.total.textContent = money.format(total);
+      el.cantidad.textContent = `${cantidad} items`;
+      el.badge.textContent = cantidad;
+      el.paypal.style.display = total > 0 ? 'block' : 'none';
+    }
+
+    function add(id) {
+      const p = productos.find(x => x.id === id);
+      if (!p) return;
+      const it = carrito.get(id);
+      if (it) it.cantidad++;
+      else carrito.set(id, { ...p, cantidad: 1 });
+      persist(); pintarCarrito();
+      showToast(`${p.nombre} agregado`);
+    }
+
+    function dec(id) {
+      const it = carrito.get(id);
+      if (!it) return;
+      it.cantidad--;
+      if (it.cantidad <= 0) carrito.delete(id);
+      persist(); pintarCarrito();
+    }
+
+    function del(id) { carrito.delete(id); persist(); pintarCarrito(); }
+
+    el.btnVaciar.addEventListener('click', () => {
+      if (confirm('¿Vaciar carrito?')) { carrito.clear(); persist(); pintarCarrito(); showToast('Carrito vacío'); }
+    });
+
+    el.btnFinal.addEventListener('click', () => {
+      if (carrito.size === 0) return alert('Carrito vacío.');
+      alert('🎉 Pedido confirmado (simulado).');
+      carrito.clear(); persist(); pintarCarrito();
+    });
+
+    document.addEventListener('click', e => {
+      if (e.target.dataset.add) add(+e.target.dataset.add);
+      if (e.target.dataset.inc) add(+e.target.dataset.inc);
+      if (e.target.dataset.dec) dec(+e.target.dataset.dec);
+      if (e.target.dataset.del) del(+e.target.dataset.del);
+    });
+    el.select.addEventListener('change', filtrar);
+    el.buscar.addEventListener('input', filtrar);
+    load();
+    poblarCategorias();
+    renderProductos(productos);
+    pintarCarrito();
+
+    function showToast(msg) {
+      el.toast.textContent = msg;
+      el.toast.classList.add('show');
+      setTimeout(() => el.toast.classList.remove('show'), 2000);
+    }
+  </script>
+</body>
+</html>
+
